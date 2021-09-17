@@ -4,6 +4,7 @@ import 'pages/fifth_page';
 import 'pages/first_page';
 import 'pages/fourth_page';
 import 'pages/second_page';
+import 'pages/seventh_page';
 import 'pages/sixth_page';
 import 'pages/third_page';
 
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/4': (context) => FourthPage(),
         '/5': (context) => FifthPage(),
         '/6': (context) => SixthPage(),
+        '/7': (context) => SeventhPage(),
       },
     );
   }
