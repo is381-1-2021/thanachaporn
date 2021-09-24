@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'models/form_model.dart';
 import 'pages/fifth_page';
 import 'pages/first_page';
 import 'pages/fourth_page';
@@ -9,7 +11,16 @@ import 'pages/sixth_page';
 import 'pages/third_page';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => FormModel(),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
