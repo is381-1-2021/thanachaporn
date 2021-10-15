@@ -1,9 +1,9 @@
 import 'package:first_app/models/form_model.dart';
-import 'package:first_app/pages/second_page';
+import 'package:first_app/pages/second_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class FirstPage extends StatefulWidget{
+class FirstPage extends StatefulWidget {
   @override
   _FirstPageState createState() => _FirstPageState();
 }
@@ -37,21 +37,21 @@ class _FirstPageState extends State<FirstPage> {
               padding: const EdgeInsets.all(8.0),
               child: Consumer<FormModel>(
                 builder: (context, model, child) {
-                  return Text('First Page - ${model.firstName} ${model.lastName} ${model.age}');
+                  return Text(
+                      'First Page - ${model.firstName} ${model.lastName} ${model.age}');
                 },
               ),
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SecondPage(),
-                  ),
-                );
-              },
-              child: Text('Go to ...')
-            ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SecondPage(),
+                    ),
+                  );
+                },
+                child: Text('Go to ...')),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/6');

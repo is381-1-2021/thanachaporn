@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'models/form_model.dart';
-import 'pages/fifth_page';
-import 'pages/first_page';
-import 'pages/fourth_page';
-import 'pages/second_page';
-import 'pages/seventh_page';
-import 'pages/sixth_page';
-import 'pages/third_page';
+import 'pages/eighth_page.dart';
+import 'pages/fifth_page.dart';
+import 'pages/first_page.dart';
+import 'pages/fourth_page.dart';
+import 'pages/second_page.dart';
+import 'pages/seventh_page.dart';
+import 'pages/sixth_page.dart';
+import 'pages/third_page.dart';
 
 void main() {
   runApp(
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         '/5': (context) => FifthPage(),
         '/6': (context) => SixthPage(),
         '/7': (context) => SeventhPage(),
+        '/8': (context) => EighthPage(),
       },
     );
   }
