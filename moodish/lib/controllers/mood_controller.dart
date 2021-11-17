@@ -12,7 +12,7 @@ class MoodController {
 
   MoodController(this.services);
 
-  Future<List<Mood>> fetchNotes() async {
+  Future<List<Mood>> fetchMoods() async {
     onSyncController.add(true);
     moods = await services.getMoods();
     onSyncController.add(false);

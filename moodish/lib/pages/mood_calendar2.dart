@@ -47,7 +47,8 @@ class _AllMoodState extends State<AllMood> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${moods[index].mood_date}',
+                  Text(
+                      '${moods[index].mood_date.toString().substring(0, moods[index].mood_date.toString().lastIndexOf(':'))}',
                       style: TextStyle(color: Colors.white)),
                   Center(
                     child: Padding(

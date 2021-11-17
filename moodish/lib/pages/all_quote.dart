@@ -47,7 +47,8 @@ class _AllQuoteState extends State<AllQuote> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${notes[index].date}',
+                  Text(
+                      '${notes[index].date.toString().substring(0, notes[index].date.toString().lastIndexOf(':'))}',
                       style: TextStyle(color: Colors.white)),
                   Center(
                     child: Padding(
