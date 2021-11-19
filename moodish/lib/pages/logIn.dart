@@ -53,6 +53,7 @@ class _TextFormState extends State<TextForm> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   String _Email = '';
+  String _Password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +102,9 @@ class _TextFormState extends State<TextForm> {
                 return 'Please enter password.';
               }
             },
+            onSaved: (value) {
+              _Password = value!;
+            },
           ),
           SizedBox(
             height: 10,
@@ -111,26 +115,25 @@ class _TextFormState extends State<TextForm> {
                 _formKey.currentState!.save();
 
                 context.read<FormModel>().Email = _Email;
-
-//                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//                  content: Text('Log in success'),
-//                ));
-//
-//                Navigator.pop(context);
               }
               try {
                 UserCredential userCredential = await FirebaseAuth.instance
                     .signInWithEmailAndPassword(
-                        email: "winaiza@gmail.com", password: "123456");
+                        email: _Email, password: _Password);
+                Navigator.pushNamed(context, '/2');
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
                   print('No user found for that email.');
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('No user found for that email.'),
+                  ));
                 } else if (e.code == 'wrong-password') {
                   print('Wrong password provided for that user.');
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Wrong password provided for that user.'),
+                  ));
                 }
               }
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
             },
             child: Text('Log In'),
             style: ElevatedButton.styleFrom(

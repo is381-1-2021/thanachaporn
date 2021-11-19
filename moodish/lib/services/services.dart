@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:moodish/models/formpayment_model.dart';
 import 'package:moodish/models/mood.dart';
 import 'package:moodish/models/note.dart';
 import 'package:moodish/models/product_model.dart';
@@ -8,6 +9,7 @@ abstract class Services {
   Future<List<Note>> getNotes();
   Future<List<Task>> getTasks();
   Future<List<ProductModel>> getProducts();
+  Future<List<OrderModel>> getOrders();
   Future<List<Mood>> getMoods();
 }
 
@@ -38,6 +40,15 @@ class FirebaseServices extends Services {
     var all = AllProducts.fromSnapshot(snapshot);
 
     return all.products;
+  }
+
+  Future<List<OrderModel>> getOrders() async {
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('moodish_order').get();
+
+    var all = AllOrders.fromSnapshot(snapshot);
+
+    return all.orders;
   }
 
   Future<List<Mood>> getMoods() async {
