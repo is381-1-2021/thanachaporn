@@ -72,7 +72,8 @@ class _CalculatorState extends State<Calculator> {
       } else if (buttonText == "1/x") {
         equation = "(" + equation + ")" + "^(-1)";
       } else if (buttonText == "+/-") {
-        equation = "(-" + equation + ")";
+        equation = "(" + equation + ")" + "×(-1)";
+        ;
       } else if (buttonText == "%") {
         equation = "(" + equation + ")" + "× 0.01";
       } else if (buttonText == "=") {
