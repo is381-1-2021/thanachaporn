@@ -27,7 +27,14 @@ class _HistoryState extends State<History> {
                   .collection("thanachaporn_final")
                   .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      'Error',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  );
+                } else if (!snapshot.hasData) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
@@ -42,18 +49,24 @@ class _HistoryState extends State<History> {
                       child: ListTile(
                         title: Consumer<NotesProviders>(
                           builder: (context, model, child) {
-                            return Text(
-                                '${snapshot.data!.docs[index]["equation"]}',
-                                style: TextStyle(
-                                    color: Colors.white60, fontSize: 20));
-                          },
-                        ),
-                        subtitle: Consumer<NotesProviders>(
-                          builder: (context, model, child) {
-                            return Text(
-                                '${snapshot.data!.docs[index]["result"]}',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 35));
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '${snapshot.data!.docs[index]["equation"]}',
+                                  style: TextStyle(
+                                      color: Colors.white60, fontSize: 20),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  '${snapshot.data!.docs[index]["result"]}',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 35),
+                                ),
+                              ],
+                            );
                           },
                         ),
                       ),
