@@ -76,7 +76,8 @@ class _CalculatorState extends State<Calculator> {
       color: buttonColor,
       child: TextButton(
           style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 20),
+            textStyle: TextStyle(fontSize: 30.0, color: Colors.white),
+            shadowColor: Colors.black,
             side: BorderSide(
                 width: 1,
                 color: Colors.blueGrey.shade900,
