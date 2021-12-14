@@ -53,7 +53,7 @@ class _HistoryState extends State<History> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  '${snapshot.data!.docs[index]["equation"]}',
+                                  snapshot.data!.docs[index]["equation"],
                                   style: TextStyle(
                                       color: Colors.white60, fontSize: 20),
                                 ),
@@ -61,7 +61,7 @@ class _HistoryState extends State<History> {
                                   height: 5,
                                 ),
                                 Text(
-                                  '${snapshot.data!.docs[index]["result"]}',
+                                  snapshot.data!.docs[index]["result"],
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 35),
                                 ),
