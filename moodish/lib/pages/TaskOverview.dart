@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:moodish/controllers/task_controller.dart';
-import 'package:moodish/models/task.dart';
-import 'package:moodish/services/services.dart';
+import 'package:midterm_app/controllers/task_controller.dart';
+import 'package:midterm_app/models/Task.dart';
+import 'package:midterm_app/services/services.dart';
+import 'package:provider/provider.dart';
+import 'TaskEdit.dart';
 
 class AllTask extends StatefulWidget {
   @override
@@ -31,13 +33,13 @@ class _AllTaskState extends State<AllTask> {
   }
 
   Widget get body => isLoading
-      ? CircularProgressIndicator()
-      : ListView.builder(
-          itemCount: tasks.isEmpty ? 1 : tasks.length,
-          itemBuilder: (ctx, index) {
-            if (tasks.isEmpty) {
-              return Text('Tap button to fetch tasks');
-            }
+          ? CircularProgressIndicator()
+          : ListView.builder(
+            itemCount: tasks.isEmpty ? 1 : tasks.length,
+            itemBuilder: (ctx, index) {
+              if (tasks.isEmpty) {
+                return Text('Tap button to fetch tasks');
+              }
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -55,13 +57,18 @@ class _AllTaskState extends State<AllTask> {
                     setState(() {
                       tasks[index].completed = value!;
                     });
-                    //FirebaseFirestore.instance
-                    //.collection("moodish_task")
-                    //.doc('')
-                    //.update(completed)
-                    //.then((value) => print("Tasks status Updated"))
-                    //.catchError((error) => print("Failed to update tasks status!!"));
-                    Navigator.pop(context);
+                    
+                    
+                    Map<String, dynamic> data = {"completed": value};
+                    FirebaseFirestore.instance
+                        .collection("moodish_task")
+                        .doc('')
+                        .update(data)
+                        .then((value) => print("Tasks status Updated"))
+                        .catchError((error) =>
+                            print("Failed to update tasks status!!"));
+
+                    //Navigator.pop(context);
                   },
                   subtitle: Text(
                       'DUEDATE : ${tasks[index].duedate.toString().substring(0, tasks[index].duedate.toString().lastIndexOf(' '))}'),
@@ -93,9 +100,7 @@ class _AllTaskState extends State<AllTask> {
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/4');
-        },
+        onPressed: () {Navigator.pushNamed(context, '/4');},
         child: Icon(
           Icons.add,
           size: 30,
@@ -104,13 +109,16 @@ class _AllTaskState extends State<AllTask> {
       appBar: AppBar(
         title: Text('All your tasks'),
         actions: [
-          IconButton(
-            icon: Icon(Icons.refresh),
-            onPressed: _getTasks,
-          ),
-        ],
+         IconButton(
+           icon: Icon(Icons.refresh),
+           onPressed: _getTasks,
+         ),
+      ],
       ),
-      body: Align(alignment: Alignment.centerLeft, child: body),
+      body: Align(
+          alignment: Alignment.centerLeft,
+          child: body
+          ),
     );
   }
 }

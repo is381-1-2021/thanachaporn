@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:moodish/models/product_model.dart';
-import 'package:moodish/services/services.dart';
+import 'package:midterm_app/models/Product_model.dart';
+import 'package:midterm_app/services/services.dart';
 
 class ProductController {
   final Services services;
@@ -19,4 +19,4 @@ class ProductController {
 
     return products;
   }
-}
+} 

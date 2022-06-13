@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 
 class TodoEntryScreen extends StatelessWidget {
   @override
@@ -14,7 +16,7 @@ class TodoEntryScreen extends StatelessWidget {
   }
 }
 
-class TaskEdit extends StatefulWidget {
+class TaskEdit extends StatefulWidget{
   @override
   _TaskEditState createState() => _TaskEditState();
 }
@@ -69,11 +71,11 @@ class _TaskEditState extends State<TaskEdit> {
               fontSize: 20,
               //backgroundColor: Colors.blue[100],
               foreground: Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 2
-                ..color = Colors.indigo[200]!,
-            ),
-          ),
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 2
+              ..color = Colors.indigo[200]!,
+                    ),
+              ),
           Container(
             child: TableCalendar(
               firstDay: DateTime.utc(2019, 10, 16),
@@ -110,15 +112,14 @@ class _TaskEditState extends State<TaskEdit> {
                 Map<String, dynamic> data = {
                   "headline": headline.text,
                   "detail": detail.text,
-                  "duedate": _focusedDay,
-                  "completed": false,
+                  "duedate" :_focusedDay,
+                  "completed" : false,
                 };
 
-                FirebaseFirestore.instance
-                    .collection("moodish_task")
-                    .add(data)
-                    .then((value) => print("New Task Added"))
-                    .catchError((error) => print("Failed to add task!!"));
+                FirebaseFirestore.instance.collection("moodish_task")
+                .add(data)
+                .then((value) => print("New Task Added"))
+                .catchError((error) => print("Failed to add task!!"));
 
                 Navigator.pop(context);
               }

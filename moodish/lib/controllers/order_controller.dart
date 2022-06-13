@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:moodish/models/formpayment_model.dart';
-import 'package:moodish/services/services.dart';
+
+import 'package:midterm_app/models/formpayment_model.dart';
+import 'package:midterm_app/services/services.dart';
 
 class OrderController {
   final Services services;
@@ -19,4 +20,4 @@ class OrderController {
 
     return orders;
   }
-}
+} 

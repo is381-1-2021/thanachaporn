@@ -1,7 +1,9 @@
 import 'dart:async';
 
-import 'package:moodish/models/mood.dart';
-import 'package:moodish/services/services.dart';
+import 'package:midterm_app/models/mood.dart';
+import 'package:midterm_app/services/services.dart';
+
+
 
 class MoodController {
   final Services services;

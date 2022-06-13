@@ -1,7 +1,9 @@
 import 'dart:async';
 
-import 'package:moodish/models/note.dart';
-import 'package:moodish/services/services.dart';
+import 'package:midterm_app/models/Note.dart';
+import 'package:midterm_app/services/services.dart';
+
+
 
 class NoteController {
   final Services services;

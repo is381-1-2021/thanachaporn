@@ -1,11 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:moodish/models/formpayment_model.dart';
-import 'package:moodish/models/mood.dart';
-import 'package:moodish/models/note.dart';
-import 'package:moodish/models/product_model.dart';
-import 'package:moodish/models/task.dart';
+import 'dart:convert';
 
-abstract class Services {
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:midterm_app/models/Note.dart';
+import 'package:midterm_app/models/Product_model.dart';
+import 'package:midterm_app/models/Task.dart';
+import 'package:midterm_app/models/formpayment_model.dart';
+import 'package:midterm_app/models/mood.dart';
+
+abstract class Services{
   Future<List<Note>> getNotes();
   Future<List<Task>> getTasks();
   Future<List<ProductModel>> getProducts();
@@ -13,20 +15,15 @@ abstract class Services {
   Future<List<Mood>> getMoods();
 }
 
-class FirebaseServices extends Services {
+class FirebaseServices extends Services{
   @override
-  Future<List<Note>> getNotes() async {
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection('moodish_quotes').get();
-
-    var all = AllNotes.fromSnapshot(snapshot);
-
-    return all.notes;
-  }
 
   Future<List<Task>> getTasks() async {
     QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection('moodish_task').get();
+        await FirebaseFirestore
+          .instance
+          .collection('moodish_task')
+          .get();
 
     var all = AllTasks.fromSnapshot(snapshot);
 
@@ -35,16 +32,21 @@ class FirebaseServices extends Services {
 
   Future<List<ProductModel>> getProducts() async {
     QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection('moodish_products').get();
+        await FirebaseFirestore
+          .instance
+          .collection('moodish_products')
+          .get();
 
     var all = AllProducts.fromSnapshot(snapshot);
 
     return all.products;
   }
-
-  Future<List<OrderModel>> getOrders() async {
+    Future<List<OrderModel>> getOrders() async {
     QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection('moodish_order').get();
+        await FirebaseFirestore
+          .instance
+          .collection('moodish_order')
+          .get();
 
     var all = AllOrders.fromSnapshot(snapshot);
 
@@ -53,10 +55,25 @@ class FirebaseServices extends Services {
 
   Future<List<Mood>> getMoods() async {
     QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection('moodish_mood').get();
+        await FirebaseFirestore
+        .instance
+        .collection('moodish_mood')
+        .get();
 
     var all = AllMoods.fromSnapshot(snapshot);
 
     return all.moods;
   }
-}
+
+    Future<List<Note>> getNotes() async {
+    QuerySnapshot snapshot =
+        await FirebaseFirestore
+          .instance
+          .collection('moodish_quotes')
+          .get();
+
+    var all = AllNotes.fromSnapshot(snapshot);
+
+    return all.notes;
+  }
+} 

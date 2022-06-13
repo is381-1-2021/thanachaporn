@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:moodish/models/task.dart';
-import 'package:moodish/services/services.dart';
+import 'package:midterm_app/models/Task.dart';
+import 'package:midterm_app/services/services.dart';
 
 class TaskController {
   final Services services;
@@ -19,4 +19,4 @@ class TaskController {
 
     return tasks;
   }
-}
+} 

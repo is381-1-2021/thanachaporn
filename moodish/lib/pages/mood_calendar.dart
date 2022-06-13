@@ -1,121 +1,123 @@
-//import 'package:flutter/material.dart';
-//import 'package:moodish/controllers/mood_controller.dart';
-//import 'package:moodish/models/mood_model.dart';
-//import 'package:moodish/services/services.dart';
-//import 'package:table_calendar/table_calendar.dart';
+import 'package:flutter/material.dart';
+import 'package:midterm_app/controllers/mood_controller.dart';
+import 'package:midterm_app/models/mood.dart';
+import 'package:midterm_app/services/services.dart';
 
-//class MoodCalendar extends StatefulWidget {
-  //@override
-  //_MoodCalendar createState() => _MoodCalendar();
-//}
 
-//class _MoodCalendar extends State<MoodCalendar> {
-  //late final ValueNotifier<List<MoodTracker>> _selectedEvents;
-  //CalendarFormat _calendarFormat = CalendarFormat.month;
-  //RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
-  //DateTime _focusedDay = DateTime.now();
-  //DateTime? _moodDate;
+class AllMood extends StatefulWidget {
+  @override
+  _AllMoodState createState() => _AllMoodState();
+}
 
-  //List<MoodModel> moods = List.empty();
-  //bool isLoading = false;
-  //var services = FirebaseServices();
-  //var controller;
+class _AllMoodState extends State<AllMood> {
+  List<Mood> moods = List.empty();
+  bool isLoading = false;
+  var services = FirebaseServices();
+  var controller;
 
-  //@override
-  //void initState() {
-    //super.initState();
-    //controller = MoodController(services);
+  void initState() {
+    super.initState();
+    controller = MoodController(services);
 
-    //controller.onSync.listen(
-      //(bool syncState) => setState(() => isLoading = syncState),
-    //);
+    controller.onSync.listen(
+      (bool syncState) => setState(() => isLoading = syncState),
+    );
+  }
 
-    //_moodDate = _focusedDay;
-    //_selectedEvents = ValueNotifier(_getMoodForDay(_moodDate!));
-  //}
+  void _getMoods() async {
+    var newMoods = await controller.fetchMoods();
 
-  //@override
-  //void dispose() {
-    //_selectedEvents.dispose();
-    //super.dispose();
- // }
+    setState(() => moods = newMoods);
+  }
 
-  //List<MoodTracker> _getMoodForDay(DateTime day) {
-    //return kEvents[day] ?? [];
-  //}
-
-  //void _onDaySelected(DateTime mood_date, DateTime focusedDay) {
-    //if (!isSameDay(_moodDate, mood_date)) {
-      //setState(() {
-        //_moodDate = mood_date;
-        //_focusedDay = focusedDay;
-      //});
-
-      //_selectedEvents.value = _getMoodForDay(mood_date);
-    //}
-  //}
-
-  //@override
-  //Widget build(BuildContext context) {
-    //return Scaffold(
-      //appBar: AppBar(
-        //title: Text('Mood Tracker'),
-      //),
-      //body: Column(
-        //children: [
-          //TableCalendar<MoodTracker>(
-            //firstDay: kFirstDay,
-            //lastDay: kLastDay,
-            //focusedDay: _focusedDay,
-            //selectedDayPredicate: (day) => isSameDay(_moodDate, day),
-           // calendarFormat: _calendarFormat,
-            //rangeSelectionMode: _rangeSelectionMode,
-            //eventLoader: _getMoodForDay,
-            //startingDayOfWeek: StartingDayOfWeek.sunday,
-            //calendarStyle: CalendarStyle(
-              //outsideDaysVisible: false,
-            //),
-            //onDaySelected: _onDaySelected,
-            //onFormatChanged: (format) {
-              //if (_calendarFormat != format) {
-                //setState(() {
-                  //_calendarFormat = format;
-                //});
-              //}
-            //},
-            //onPageChanged: (focusedDay) {
-              //_focusedDay = focusedDay;
-            //},
-          //),
-          //const SizedBox(height: 8.0),
-          //Expanded(
-            //child: ValueListenableBuilder<List<MoodTracker>>(
-              //valueListenable: _selectedEvents,
-              //builder: (context, value, _) {
-                //return ListView.builder(
-                  //itemCount: value.length,
-                  //itemBuilder: (context, index) {
-                    //return Container(
-                      //margin: const EdgeInsets.symmetric(
-                        //horizontal: 12.0,
-                        //vertical: 4.0,
-                      //),
-                      //decoration: BoxDecoration(
-                        //border: Border.all(),
-                        //borderRadius: BorderRadius.circular(12.0),
-                      //),
-                      //child: ListTile(
-                        //onTap: () => print('${value[index]}'),
-                        //title: Text('${value[index]}'),
-                      //),
-                    //);
-                  //},
-                //);
-              //},
-            //),
-          //),
-        //],
-      //),
-    //);
-  //}
-//}
+  Widget get body => isLoading
+      ? CircularProgressIndicator()
+      : ListView.builder(
+        //scrollDirection: Axis.horizontal,
+          itemCount: moods.isEmpty ? 1 : moods.length,
+          itemBuilder: (ctx, index) {
+            if (moods.isEmpty) {
+              return Text('Tap button to fetch moods');
+            }
+            return Container(
+              margin: EdgeInsets.all(15),
+              padding: EdgeInsets.all(15),
+              height: 120,
+              decoration: BoxDecoration(
+                  color: (moods[index].mood == 'Excited')
+                      ? Colors.green
+                      : (moods[index].mood == 'Happy')
+                          ? Colors.amber
+                          : (moods[index].mood == 'Sad')
+                              ? Colors.orange
+                              : Colors.red,
+                  borderRadius: BorderRadius.circular(20)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('${moods[index].mood_date.toString().substring(0, moods[index].mood_date.toString().lastIndexOf(' '))}',
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white,fontSize: 20),),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                            moods[index].mood,
+                            style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          child: (moods[index].mood == 'Excited')
+                              ? Image.asset('assets/excited.png')
+                              : (moods[index].mood == 'Happy')
+                                  ? Image.asset('assets/happy.png')
+                                  : (moods[index].mood == 'Sad')
+                                      ? Image.asset('assets/sad.png')
+                                      : Image.asset('assets/angry.png')
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.white,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/7');
+          },
+          child: Icon(
+            Icons.add,
+            size: 30,
+          ),
+        ),
+        appBar: AppBar(
+          title: Text('Mood Tracker'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: _getMoods,
+            ),
+          ],
+        ),
+        body: Center(child: body));
+  }
+}
